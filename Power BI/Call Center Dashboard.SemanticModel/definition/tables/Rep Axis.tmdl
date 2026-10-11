@@ -1,0 +1,12 @@
+table 'Rep Axis'
+	lineageTag: 3f72145d-63a7-4b13-b59b-40753f383cec
+
+	column 'Rep ID'
+		lineageTag: d548cf1d-36b2-4495-90d5-93da727c29fb
+		isNameInferred
+		sourceColumn: Reps[Rep ID]
+
+	partition 'Rep Axis' = calculated
+		mode: import
+		source = DISTINCT ( Reps[Rep ID] )
+

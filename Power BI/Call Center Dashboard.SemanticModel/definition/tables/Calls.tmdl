@@ -1,0 +1,134 @@
+table Calls
+	lineageTag: 7b5e0a2a-fb1a-4b9b-b520-cb46e197cd2f
+
+	column 'Call ID'
+		dataType: string
+		lineageTag: b29c78d7-a3d1-445a-9b50-c4e51b9d1a77
+		summarizeBy: none
+		sourceColumn: Call ID
+
+		annotation SummarizationSetBy = User
+
+	column 'Customer ID'
+		dataType: string
+		isHidden
+		lineageTag: 7adfb7df-6fda-4548-8405-efa5a6e983d9
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = User
+
+	column 'Call Duration'
+		dataType: int64
+		formatString: #,0
+		lineageTag: aae3c5f8-5fba-4ca2-a9e8-80e73fb4bbd8
+		summarizeBy: sum
+		sourceColumn: Call Duration
+
+		annotation SummarizationSetBy = User
+
+	column 'Rep ID'
+		dataType: string
+		isHidden
+		lineageTag: 832c3083-3c3d-48a6-a2fd-fa81af14f315
+		summarizeBy: none
+		sourceColumn: Rep ID
+
+		annotation SummarizationSetBy = User
+
+	column 'Call Date'
+		dataType: dateTime
+		isHidden
+		formatString: dd-mmm-yyyy
+		lineageTag: a12374b3-850c-491f-9fb3-69e1b4d8fdb7
+		summarizeBy: none
+		sourceColumn: Call Date
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Purchase Amount'
+		dataType: int64
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 94f5b92f-9ed5-4f65-943e-c78ac4300cfc
+		summarizeBy: sum
+		sourceColumn: Purchase Amount
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Satisfaction Rating'
+		dataType: double
+		formatString: 0.0
+		lineageTag: f1a542dc-42bd-4953-9ec8-cee4c685b7a5
+		summarizeBy: average
+		sourceColumn: Satisfaction Rating
+
+		annotation SummarizationSetBy = User
+
+	column 'Rating Rounded'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3025be72-99dc-484a-94e5-c5b1189ddd59
+		summarizeBy: none
+		sourceColumn: Rating Rounded
+
+		annotation SummarizationSetBy = User
+
+	column 'Duration Bucket'
+		dataType: string
+		lineageTag: 5f3a4694-4180-4899-829c-ef9b76b64be9
+		summarizeBy: none
+		sourceColumn: Duration Bucket
+		sortByColumn: 'Bucket Order'
+
+		annotation SummarizationSetBy = User
+
+	column 'Bucket Order'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7b6c72cf-94c8-4a94-8b16-9b33aafb2ad7
+		summarizeBy: none
+		sourceColumn: Bucket Order
+
+		annotation SummarizationSetBy = User
+
+	partition Calls = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "calls.csv"),
+				        [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.RenameColumns(Promoted, {
+				        {"Call number", "Call ID"}, {"Duration", "Call Duration"},
+				        {"Representative", "Rep ID"}, {"Date of Call", "Call Date"}}),
+				    Typed = Table.TransformColumnTypes(Renamed, {
+				        {"Call ID", type text}, {"Customer ID", type text},
+				        {"Call Duration", Int64.Type}, {"Rep ID", type text},
+				        {"Call Date", type date}, {"Purchase Amount", Int64.Type},
+				        {"Satisfaction Rating", type number}}),
+				    // Number.Round defaults to banker's rounding (4.5 -> 4). AwayFromZero matches Excel/DAX ROUND.
+				    AddRating = Table.AddColumn(Typed, "Rating Rounded",
+				        each Number.Round([Satisfaction Rating], 0, RoundingMode.AwayFromZero), Int64.Type),
+				    AddBucket = Table.AddColumn(AddRating, "Duration Bucket", each
+				        if [Call Duration] <= 10 then "Under 10 mins"
+				        else if [Call Duration] <= 30 then "10 to 30 mins"
+				        else if [Call Duration] <= 60 then "30 to 60 mins"
+				        else if [Call Duration] <= 120 then "1 to 2 hours"
+				        else "More than 2 hours", type text),
+				    AddOrder = Table.AddColumn(AddBucket, "Bucket Order", each
+				        if [Call Duration] <= 10 then 1
+				        else if [Call Duration] <= 30 then 2
+				        else if [Call Duration] <= 60 then 3
+				        else if [Call Duration] <= 120 then 4
+				        else 5, Int64.Type)
+				in
+				    AddOrder
+
+	annotation PBI_ResultType = Table
+

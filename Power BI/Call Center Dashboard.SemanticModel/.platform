@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Call Center Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a5a37880-01bf-44e0-b7a8-c61875068c8c"
+  }
+}

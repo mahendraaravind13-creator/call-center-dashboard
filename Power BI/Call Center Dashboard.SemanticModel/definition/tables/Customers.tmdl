@@ -1,0 +1,52 @@
+table Customers
+	lineageTag: 553f018c-2612-4f1d-9038-dde96c4ed06a
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 409dd017-7440-49e9-a709-e85e6b42060e
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = User
+
+	column Gender
+		dataType: string
+		lineageTag: 658041f6-0573-49d4-9f1d-5e2de3383372
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = User
+
+	column Age
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c38cb4c-18f6-4b76-b519-19d2adc9c7f3
+		summarizeBy: average
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = User
+
+	column City
+		dataType: string
+		lineageTag: 388afb47-f6b0-4f5b-8025-e5c1716eae4c
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = User
+
+	partition Customers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "customers.csv"),
+				        [Delimiter = ",", Columns = 4, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Renamed = Table.RenameColumns(Promoted, {{"Gedner", "Gender"}}),
+				    Typed = Table.TransformColumnTypes(Renamed, {
+				        {"Customer ID", type text}, {"Gender", type text},
+				        {"Age", Int64.Type}, {"City", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+

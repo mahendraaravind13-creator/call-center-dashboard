@@ -1,0 +1,307 @@
+table _Measures
+	lineageTag: 77f1036b-4c21-4ae8-a9c6-14548829fded
+
+	measure 'Call Count' = COUNTROWS ( Calls )
+		formatString: #,0
+		displayFolder: Base
+		lineageTag: 787f8456-fc8e-40ac-bdd5-983934e3f440
+
+	measure 'Total Amount' = SUM ( Calls[Purchase Amount] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Base
+		lineageTag: 7194a510-b30b-43d5-a1e7-934359c27237
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Duration (min)' = SUM ( Calls[Call Duration] )
+		formatString: #,0
+		displayFolder: Base
+		lineageTag: 859eaae5-f3b6-4104-9ed4-5ee673a71755
+
+	measure 'Avg Rating' = AVERAGE ( Calls[Satisfaction Rating] )
+		formatString: 0.00
+		displayFolder: Base
+		lineageTag: a1d7495a-1ff0-43e1-97f2-c1aa00c4667e
+
+	measure '5 Star Calls' = CALCULATE ( [Call Count], Calls[Rating Rounded] = 5 )
+		formatString: #,0
+		displayFolder: Base
+		lineageTag: 6df9df63-ae8b-4f5d-a7ea-d52816cb2f08
+
+	measure 'Talk Time (hrs)' = DIVIDE ( [Total Duration (min)], 60 )
+		formatString: #,0
+		displayFolder: Ratios
+		lineageTag: afdd6c06-915e-4430-a6dc-fbc30bdb2710
+
+	measure 'Revenue per Call' = DIVIDE ( [Total Amount], [Call Count] )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Ratios
+		lineageTag: e6266473-6b28-43d5-99f7-a8a36f5db233
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure '5 Star %' = DIVIDE ( [5 Star Calls], [Call Count] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Ratios
+		lineageTag: d6edf37b-bca6-48eb-9680-d6a35d6a504f
+
+	measure 'Low Rating %' =
+			DIVIDE (
+			    CALCULATE ( [Call Count], Calls[Rating Rounded] <= 2 ),
+			    [Call Count]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Ratios
+		lineageTag: e9d99bc7-03f4-4ec5-a06a-1cdba33261fc
+
+	measure 'Calls (All Reps)' = CALCULATE ( [Call Count], REMOVEFILTERS ( Reps ) )
+		formatString: #,0
+		displayFolder: Benchmarks
+		lineageTag: 346f24c9-1f56-4ada-bff4-c79a7391a949
+
+	measure 'Revenue (All Reps)' = CALCULATE ( [Total Amount], REMOVEFILTERS ( Reps ) )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Benchmarks
+		lineageTag: 9a25215e-1f8a-4c85-8c66-ec381e54b102
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Talk Time (All Reps)' = CALCULATE ( [Talk Time (hrs)], REMOVEFILTERS ( Reps ) )
+		formatString: #,0
+		displayFolder: Benchmarks
+		lineageTag: 5f94af88-9c8f-46d3-9aad-893540a668b1
+
+	measure 'Rev per Call (All Reps)' = CALCULATE ( [Revenue per Call], REMOVEFILTERS ( Reps ) )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Benchmarks
+		lineageTag: 2d74bb7a-3701-48e6-9053-56c7497a8339
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Rating (All Reps)' = CALCULATE ( [Avg Rating], REMOVEFILTERS ( Reps ) )
+		formatString: 0.00
+		displayFolder: Benchmarks
+		lineageTag: ad4149f4-cef4-4d91-929a-15d8554f42c1
+
+	measure '5 Star % (All Reps)' = CALCULATE ( [5 Star %], REMOVEFILTERS ( Reps ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Benchmarks
+		lineageTag: 7f692a4b-dd68-4135-8987-d0811ca86594
+
+	measure 'Low Rating % (All Reps)' = CALCULATE ( [Low Rating %], REMOVEFILTERS ( Reps ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Benchmarks
+		lineageTag: 7d092809-b494-497f-9175-8676406f37da
+
+	measure 'Share of Calls' = DIVIDE ( [Call Count], [Calls (All Reps)] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Benchmarks
+		lineageTag: a284dbcc-abab-4faf-a2b2-914769f9dd0f
+
+	measure 'Share of Revenue' = DIVIDE ( [Total Amount], [Revenue (All Reps)] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Benchmarks
+		lineageTag: c09c05dd-c021-4be6-bdc2-4102c13286ec
+
+	measure 'Rev per Call vs Team' = [Revenue per Call] - [Rev per Call (All Reps)]
+		formatString: +0.00;-0.00;0.00
+		displayFolder: Benchmarks
+		lineageTag: 90fc1eb4-1ff3-4e75-9e3d-9a1450a9d27f
+
+	measure 'Report Title' = "Call Center Performance"
+		displayFolder: Labels
+		lineageTag: 3eab839f-9904-4002-bbca-a033ba44f01a
+
+	measure 'Report Subtitle' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    "2023  ·  " & CONCATENATEX ( VALUES ( Reps[Rep ID] ), Reps[Rep ID], ", ", Reps[Rep ID] )
+			        & "  ·  " & FORMAT ( [Call Count], "#,0" )
+			        & " of " & FORMAT ( [Calls (All Reps)], "#,0" ) & " calls",
+			    "2023  ·  1,000 calls  ·  15 customers  ·  5 representatives"
+			)
+		displayFolder: Labels
+		lineageTag: affdb233-eb67-4d09-b52e-c2ce882db067
+
+	measure 'Calls Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    FORMAT ( [Share of Calls], "0.0%" ) & " of " & FORMAT ( [Calls (All Reps)], "#,0" ) & " team calls",
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: adad03c7-ca34-49ea-b8e8-dfebd15d4d26
+
+	measure 'Revenue Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    FORMAT ( [Share of Revenue], "0.0%" ) & " of team revenue",
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: c4844f0c-3186-4986-be25-c2c61c4204cf
+
+	measure 'Rev per Call Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    "Team $" & FORMAT ( [Rev per Call (All Reps)], "0.00" )
+			        & "  (" & FORMAT ( [Rev per Call vs Team], "+0.00;-0.00" ) & ")",
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: d63ef2e6-c992-4943-8765-5a4f809e366f
+
+	measure 'Talk Time Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    FORMAT ( DIVIDE ( [Talk Time (hrs)], [Talk Time (All Reps)] ), "0.0%" ) & " of team talk time",
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: e9b3cef1-5903-47ce-bcf4-cad6911c48a5
+
+	measure 'Rating Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    "Team " & FORMAT ( [Avg Rating (All Reps)], "0.00" ),
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: 0e4a95e1-d294-486f-b75d-e5dc646ed6e4
+
+	measure '5 Star Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    "Team " & FORMAT ( [5 Star % (All Reps)], "0.0%" ),
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: 26b4462b-fee8-437f-a3cb-41548e069d85
+
+	measure 'Low Rating Sub' =
+			IF (
+			    ISFILTERED ( Reps[Rep ID] ),
+			    "Team " & FORMAT ( [Low Rating % (All Reps)], "0.0%" ),
+			    "All 5 reps"
+			)
+		displayFolder: Labels
+		lineageTag: 76b42062-ab2a-46cc-8ea2-5e22c8d4c1b1
+
+	measure 'Rep Profile' = "Representative " & SELECTEDVALUE ( Reps[Rep ID], "(several)" )
+		displayFolder: Labels
+		lineageTag: 0a1628f2-aba9-45cf-bbd9-e0885d9f6239
+
+	measure 'Rank Text' =
+			IF (
+			    HASONEVALUE ( Reps[Rep ID] ),
+			    "Rank " & [Rev per Call Rank] & " of 5 by revenue per call"
+			)
+		displayFolder: Labels
+		lineageTag: 36786dfa-a8b0-497d-943a-641cb5286531
+
+	measure 'Calls Prev Month' = CALCULATE ( [Call Count], DATEADD ( 'Date'[Date], -1, MONTH ) )
+		formatString: #,0
+		displayFolder: Time
+		lineageTag: 3a9720e1-8ef5-4cc0-8f8c-78b5e1728e2e
+
+	measure 'Calls MoM %' = DIVIDE ( [Call Count] - [Calls Prev Month], [Calls Prev Month] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Time
+		lineageTag: 916bc95d-dcab-4d22-b94a-c68cf23898f6
+
+	measure 'Revenue YTD' = TOTALYTD ( [Total Amount], 'Date'[Date] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Time
+		lineageTag: 0fb060cb-e4a4-4fb2-b5cb-3026eb8e7169
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Revenue FYTD' = TOTALYTD ( [Total Amount], 'Date'[Date], "6-30" )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Time
+		lineageTag: 2d8bcd4d-3e6f-4ae6-9ae8-3930b0f4a1b4
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Rev per Call Rank' =
+			IF (
+			    HASONEVALUE ( Reps[Rep ID] ),
+			    RANKX ( ALL ( Reps ), [Revenue per Call] )
+			)
+		formatString: 0
+		displayFolder: Ranking
+		lineageTag: e99b51e6-7cab-42ab-af12-19ad6f761040
+
+	measure 'Axis Calls' =
+			CALCULATE (
+			    [Call Count],
+			    REMOVEFILTERS ( Reps ),
+			    TREATAS ( VALUES ( 'Rep Axis'[Rep ID] ), Reps[Rep ID] )
+			)
+		formatString: #,0
+		displayFolder: Highlight
+		lineageTag: 749834e1-3f89-4878-97b0-3bada253b867
+
+	measure 'Axis Revenue' =
+			CALCULATE (
+			    [Total Amount],
+			    REMOVEFILTERS ( Reps ),
+			    TREATAS ( VALUES ( 'Rep Axis'[Rep ID] ), Reps[Rep ID] )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Highlight
+		lineageTag: 3da08b71-51a3-4f62-9322-f1fd498095f8
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Axis Bar Colour' =
+			VAR AxisRep = SELECTEDVALUE ( 'Rep Axis'[Rep ID] )
+			RETURN
+			    IF (
+			        ISFILTERED ( Reps[Rep ID] ) && AxisRep IN VALUES ( Reps[Rep ID] ),
+			        "#C04433",
+			        "#C6C6C4"
+			    )
+		displayFolder: Highlight
+		lineageTag: 22c71b26-1b9f-4957-9095-d81f3e99fc84
+
+	measure 'Axis Revenue Colour' =
+			VAR AxisRep = SELECTEDVALUE ( 'Rep Axis'[Rep ID] )
+			RETURN
+			    IF (
+			        ISFILTERED ( Reps[Rep ID] ) && AxisRep IN VALUES ( Reps[Rep ID] ),
+			        "#E67E22",
+			        "#C6C6C4"
+			    )
+		displayFolder: Highlight
+		lineageTag: 83cb6ccc-d147-4887-bfc6-b3d21be259ce
+
+	measure 'Axis Font Colour' =
+			VAR AxisRep = SELECTEDVALUE ( 'Rep Axis'[Rep ID] )
+			RETURN
+			    IF (
+			        ISFILTERED ( Reps[Rep ID] ) && AxisRep IN VALUES ( Reps[Rep ID] ),
+			        "#C04433",
+			        "#2D3134"
+			    )
+		displayFolder: Highlight
+		lineageTag: a4ac088b-c6d0-447b-adac-1d6af98d8373
+
+	measure 'Vs Team Colour' = IF ( [Rev per Call vs Team] < 0, "#C04433", "#2E7D6F" )
+		displayFolder: Highlight
+		lineageTag: eb31fb5e-d94a-4e60-8c8c-70354d6529ba
+
+	column Dummy
+		dataType: int64
+		isHidden
+		lineageTag: 49a7f390-abfe-47fd-9745-9532b58aba64
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Dummy]
+
+		annotation SummarizationSetBy = User
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW ( "Dummy", 0 )
+

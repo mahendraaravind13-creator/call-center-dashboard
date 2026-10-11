@@ -1,0 +1,33 @@
+table 'Rating Scale'
+	lineageTag: 8f1f296d-1db9-4390-8264-b5db455ab5f2
+
+	column Rating
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9dcd6ea5-c8a0-42a8-b661-394e8f9bfb11
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Rating]
+
+		annotation SummarizationSetBy = User
+
+	column 'Rating Label'
+		dataType: string
+		lineageTag: 49b41151-033a-4639-9ab2-f3a44c2b70fe
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Rating Label]
+		sortByColumn: Rating
+
+		annotation SummarizationSetBy = User
+
+	partition 'Rating Scale' = calculated
+		mode: import
+		source =
+				SELECTCOLUMNS (
+				    GENERATESERIES ( 0, 5, 1 ),
+				    "Rating", [Value],
+				    "Rating Label", [Value] & " ★"
+				)
+

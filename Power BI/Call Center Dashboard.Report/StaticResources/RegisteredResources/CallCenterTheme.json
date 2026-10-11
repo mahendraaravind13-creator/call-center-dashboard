@@ -1,0 +1,16 @@
+{
+  "name": "Call Center",
+  "dataColors": [
+    "#C04433",
+    "#2E7D6F",
+    "#E67E22",
+    "#D69E2E",
+    "#7A4C6C",
+    "#C6C6C4",
+    "#5B7FA6",
+    "#8C8C88"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#2D3134",
+  "tableAccent": "#C04433"
+}

@@ -1,0 +1,24 @@
+table Reps
+	lineageTag: 23590d38-9fc1-4c7b-a621-74c00b082a80
+
+	column 'Rep ID'
+		dataType: string
+		lineageTag: bcc5c8c3-de94-47cc-a7b9-57fe05b6431b
+		summarizeBy: none
+		sourceColumn: Rep ID
+
+		annotation SummarizationSetBy = User
+
+	partition Reps = m
+		mode: import
+		source =
+				let
+				    Source = Calls,
+				    RepOnly = Table.SelectColumns(Source, {"Rep ID"}),
+				    Distinct = Table.Distinct(RepOnly),
+				    Sorted = Table.Sort(Distinct, {{"Rep ID", Order.Ascending}})
+				in
+				    Sorted
+
+	annotation PBI_ResultType = Table
+

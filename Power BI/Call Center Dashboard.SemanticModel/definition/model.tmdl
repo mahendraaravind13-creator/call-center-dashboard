@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFolder","Calls","Customers","Reps"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Calls
+ref table Customers
+ref table Reps
+ref table Date
+ref table 'Rating Scale'
+ref table 'Rep Axis'
+ref table _Measures
+
+ref role 'Rep R02'
+
+ref cultureInfo en-US
+

@@ -1,0 +1,102 @@
+table Date
+	lineageTag: b79315f4-1bfb-40f1-ba1e-347ad404e85c
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd-mmm-yyyy
+		lineageTag: 3599659b-ee65-4ee8-8463-97a47701b3a5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = User
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: b8a9e5d0-ccd1-4e9f-a17a-1211cbba6450
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = User
+
+	column 'Month Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 181d3e9a-c3f3-4170-bcac-ec5e1d4e5bed
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = User
+
+	column Month
+		dataType: string
+		lineageTag: 53532d82-3ef4-4e8f-9d49-a3c19906ebe3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+		annotation SummarizationSetBy = User
+
+	column Quarter
+		dataType: string
+		lineageTag: 857b4492-1b77-42fa-8045-e44f8ce88f72
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = User
+
+	column 'Day Number'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6a5a4de2-028a-423b-bd73-011ab43da1fb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day Number]
+
+		annotation SummarizationSetBy = User
+
+	column 'Day of Week'
+		dataType: string
+		lineageTag: 07b8a354-da8d-4c89-a512-91bb3bd8addf
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week]
+		sortByColumn: 'Day Number'
+
+		annotation SummarizationSetBy = User
+
+	column FY
+		dataType: string
+		lineageTag: 1f1ec4de-5e7a-4b9f-8b97-9e484447afa5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [FY]
+
+		annotation SummarizationSetBy = User
+
+	partition Date = calculated
+		mode: import
+		source =
+				ADDCOLUMNS (
+				    CALENDAR (
+				        DATE ( YEAR ( MIN ( Calls[Call Date] ) ), 1, 1 ),
+				        DATE ( YEAR ( MAX ( Calls[Call Date] ) ), 12, 31 )
+				    ),
+				    "Year", YEAR ( [Date] ),
+				    "Month Number", MONTH ( [Date] ),
+				    "Month", FORMAT ( [Date], "mmm" ),
+				    "Quarter", "Q" & QUARTER ( [Date] ),
+				    "Day Number", WEEKDAY ( [Date], 1 ),
+				    "Day of Week", FORMAT ( [Date], "dddd" ),
+				    "FY", "FY" & ( YEAR ( [Date] ) + IF ( MONTH ( [Date] ) >= 7, 1, 0 ) )
+				)
+

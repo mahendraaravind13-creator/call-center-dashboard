@@ -1,0 +1,388 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "overview",
+  "displayName": "Overview",
+  "displayOption": "FitToWidth",
+  "height": 1600,
+  "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F0F0ED'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F0F0ED'"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "repSlicer",
+      "target": "leaderboard",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "title",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "subtitle",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "repSlicer",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi0Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi1Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi2",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi2Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi3Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi4",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi4Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi5",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "kpi5Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "monthTrend",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "repRevenue",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "weekday",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "cityMix",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "ratingDist",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "leaderboard",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repCalls",
+      "target": "customerMatrix",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "title",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "subtitle",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "repSlicer",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi0Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi1Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi2",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi2Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi3Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi4",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi4Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi5",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "kpi5Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "monthTrend",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "repCalls",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "weekday",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "cityMix",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "ratingDist",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "leaderboard",
+      "type": "NoFilter"
+    },
+    {
+      "source": "repRevenue",
+      "target": "customerMatrix",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "title",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "subtitle",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "repSlicer",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi0",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi0Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi1Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi2",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi2Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi3Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi4",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi4Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi5",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "kpi5Sub",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "monthTrend",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "repCalls",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "repRevenue",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "weekday",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "cityMix",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "ratingDist",
+      "type": "NoFilter"
+    },
+    {
+      "source": "customerMatrix",
+      "target": "leaderboard",
+      "type": "NoFilter"
+    }
+  ]
+}

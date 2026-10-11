@@ -1,0 +1,16 @@
+relationship 30a4610b-d7eb-53b0-8b9d-cbaab267e47d
+	fromColumn: Calls.'Customer ID'
+	toColumn: Customers.'Customer ID'
+
+relationship 6d606952-77b3-5024-9956-bb46b86a5121
+	fromColumn: Calls.'Rep ID'
+	toColumn: Reps.'Rep ID'
+
+relationship 101c4649-4d21-5e7a-8527-e3ace73f7278
+	fromColumn: Calls.'Call Date'
+	toColumn: Date.Date
+
+relationship cac6c07e-9f3b-5965-a41b-9056ff63c2e2
+	fromColumn: Calls.'Rating Rounded'
+	toColumn: 'Rating Scale'.Rating
+

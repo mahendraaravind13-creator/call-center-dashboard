@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Call Center Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "338fe85e-40dc-46e4-8566-8c4182c56a1e"
+  }
+}

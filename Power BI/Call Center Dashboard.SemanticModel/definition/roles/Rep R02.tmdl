@@ -1,0 +1,7 @@
+role 'Rep R02'
+	modelPermission: read
+
+	tablePermission Reps = [Rep ID] = "R02"
+
+	annotation PBI_Id = c05cfdcc93494b538ac58778054f9b7a
+

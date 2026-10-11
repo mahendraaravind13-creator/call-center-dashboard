@@ -4,6 +4,8 @@ An interactive performance dashboard for a five-person call centre, built twice:
 
 **Data:** 1,000 calls in 2023 · 15 customers · 5 representatives · $96,623 revenue *(sample dataset)*
 
+📄 **Full write-up:** [PROJECT_REPORT.md](PROJECT_REPORT.md)
+
 ---
 
 ## What's in it
@@ -39,6 +41,7 @@ An interactive performance dashboard for a five-person call centre, built twice:
 ## Repository layout
 
 ```text
+PROJECT_REPORT.md                        Full write-up: data, model, design, findings, validation
 Call Center Dashboard.xlsx               Excel dashboard (Power Pivot model)
 Call Center Dashboard - Build Guide.md   Step-by-step Excel build with checkpoints
 Excel Complete Notes.md                  Function reference used in the build

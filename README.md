@@ -43,14 +43,12 @@ An interactive performance dashboard for a five-person call centre, built twice:
 ```text
 PROJECT_REPORT.md                        Full write-up: data, model, design, findings, validation
 Call Center Dashboard.xlsx               Excel dashboard (Power Pivot model)
-Call Center Dashboard - Build Guide.md   Step-by-step Excel build with checkpoints
-Excel Complete Notes.md                  Function reference used in the build
 Power BI/
   Call Center Dashboard.pbip             Open this in Power BI Desktop
   Call Center Dashboard.SemanticModel/   Data model (TMDL: tables, measures, relationships, RLS)
   Call Center Dashboard.Report/          Report pages and visuals (PBIR)
   data/                                  Raw source CSVs (original messy headers)
-  Power BI Dashboard - Build Guide.md    Step-by-step Power BI build with checkpoints
+  call-center-theme.json                 Colour theme
 ```
 
 ## Opening the Power BI version

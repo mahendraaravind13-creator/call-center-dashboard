@@ -216,7 +216,7 @@ Each finding is stated with how far the data supports it.
 
 ### Reconciliation rule
 
-Every breakdown must sum back to its headline: rep calls = 1,000, rep revenue = $96,623, rating distribution = 1,000, matrix grand total = $96,623. Both builds include numbered checkpoints for this.
+Every breakdown must sum back to its headline: rep calls = 1,000, rep revenue = $96,623, rating distribution = 1,000, matrix grand total = $96,623. Both builds were checked against these totals at every stage, and the Power BI measures were cross-checked against an independent pandas calculation.
 
 ### Issues found
 
@@ -300,8 +300,3 @@ Building it twice separated the **design** (fixed benchmarks, stable categories,
 | Cities (calls) | Cincinnati 276 · Cleveland 389 · Columbus 335 |
 | Fiscal year (Jul–Jun) | FY2023 586 calls · FY2024 414 calls |
 | Revenue YTD / FYTD at Dec | $96,623 / $40,548 |
-
-### Build guides
-
-- `Call Center Dashboard - Build Guide.md`: Excel build, step by step, with checkpoints
-- `Power BI/Power BI Dashboard - Build Guide.md`: Power BI build, step by step, with checkpoints
